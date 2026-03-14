@@ -1,0 +1,151 @@
+.cart-page {
+  padding-top: 140px;
+  padding-bottom: 100px;
+}
+
+.page-title {
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+}
+
+.empty-cart {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 1.5rem;
+}
+
+.empty-cart svg {
+  color: var(--secondary);
+  opacity: 0.3;
+}
+
+.cart-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 3rem;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 100px 2fr 120px 100px 50px;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  gap: 1.5rem;
+}
+
+.item-image img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-details h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+}
+
+.item-cat {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+}
+
+.item-price {
+  font-weight: 600;
+  color: var(--secondary);
+}
+
+.item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: white;
+  padding: 0.5rem;
+  border-radius: 25px;
+  border: 1px solid #eee;
+  justify-content: space-between;
+}
+
+.item-quantity button {
+  background: transparent;
+  color: var(--text);
+}
+
+.item-subtotal p {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.remove-btn {
+  background: transparent;
+  color: #ff4d4d;
+}
+
+.cart-summary {
+  padding: 2rem;
+  border-radius: var(--radius);
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.cart-summary h3 {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  color: var(--text-light);
+}
+
+.summary-row.total {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.checkout-btn {
+  margin-top: 2rem;
+  padding: 1.2rem;
+}
+
+.payment-icons {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+@media (max-width: 992px) {
+  .cart-grid {
+    grid-template-columns: 1fr;
+  }
+  .cart-item {
+    grid-template-columns: 80px 1fr 1fr;
+  }
+  .item-subtotal, .remove-btn {
+    grid-row: 2;
+  }
+  .item-details {
+    grid-column: 2 / span 2;
+  }
+}

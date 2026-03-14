@@ -1,0 +1,62 @@
+.floating-cart {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  z-index: 900;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  transition: var(--transition);
+  animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.floating-cart:hover {
+  transform: scale(1.1) translateY(-5px);
+  background: var(--secondary);
+  color: white;
+}
+
+.floating-cart-inner {
+  position: relative;
+}
+
+.floating-count {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  background: var(--secondary);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.floating-cart:hover .floating-count {
+  background: var(--primary);
+}
+
+@keyframes bounceIn {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+  .floating-cart {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+  }
+}

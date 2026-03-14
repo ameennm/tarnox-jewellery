@@ -1,0 +1,147 @@
+.shop-page {
+  padding-top: 100px;
+  padding-bottom: 60px;
+}
+
+@media (min-width: 1024px) {
+  .shop-page {
+    padding-top: 140px;
+    padding-bottom: 100px;
+  }
+}
+
+.shop-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .shop-header { margin-bottom: 4rem; }
+}
+
+.shop-header h1 {
+  margin-bottom: 0.8rem;
+}
+
+.shop-header p {
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+  .shop-header p { font-size: 1.1rem; }
+}
+
+.shop-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .shop-controls {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4rem;
+    gap: 2rem;
+  }
+}
+
+.categories-filter {
+  display: flex;
+  gap: 0.8rem;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.categories-filter::-webkit-scrollbar {
+  display: none;
+}
+
+.cat-btn {
+  padding: 0.5rem 1.2rem;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 30px;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .cat-btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+.cat-btn:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+}
+
+.cat-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 1024px) {
+  .search-box {
+    min-width: 300px;
+    width: auto;
+  }
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.7rem 1.2rem 0.7rem 2.8rem;
+  border-radius: 30px;
+  border: 1px solid #eee;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+@media (min-width: 768px) {
+  .search-box input {
+    padding: 0.8rem 1.5rem 0.8rem 3rem;
+  }
+}
+
+.search-box input:focus {
+  border-color: var(--secondary);
+  outline: none;
+  box-shadow: 0 0 10px rgba(197, 160, 89, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+}
+
+.loading, .no-results {
+  text-align: center;
+  padding: 3rem 0;
+  font-size: 1.1rem;
+  color: var(--text-light);
+}
+
+@media (min-width: 768px) {
+  .loading, .no-results {
+    padding: 5rem 0;
+    font-size: 1.2rem;
+  }
+}

@@ -1,1 +1,0 @@
-# tarnox-jewellery
