@@ -30,7 +30,7 @@ const ShopPage = () => {
       query = query.eq('category', category);
     }
 
-    const { data, error } = await query;
+    const { data, error } = await query.order('created_at', { ascending: false });
     if (data) setProducts(data);
     setLoading(false);
   };

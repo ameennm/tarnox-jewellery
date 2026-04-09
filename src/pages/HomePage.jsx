@@ -13,6 +13,7 @@ const HomePage = () => {
       const { data, error } = await supabase
         .from('products')
         .select('*')
+        .order('created_at', { ascending: false })
         .limit(3);
       if (data) setFeaturedProducts(data);
     };
@@ -25,7 +26,7 @@ const HomePage = () => {
       <section className="hero">
         <div className="container hero-content">
           <div className="hero-text animate-fade-in">
-            <span className="hero-subtitle">New Collection 2024</span>
+            <span className="hero-subtitle">New Collection 2026</span>
             <h1>Timeless Elegance For Every Occasion</h1>
             <p>Discover our curated collection of fine jewellery, from diamond rings to pearl necklaces, crafted with passion and precision.</p>
             <div className="hero-btns">
