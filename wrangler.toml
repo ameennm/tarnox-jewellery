@@ -1,0 +1,13 @@
+name = "tarnox-jewellery"
+compatibility_date = "2026-05-22"
+pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tarnox-jewellery"
+database_id = "2a410f45-fdf7-48aa-98b1-267c34def533"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "PRODUCT_IMAGES"
+bucket_name = "tarnox-jewellery-images"

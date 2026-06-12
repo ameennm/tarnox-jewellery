@@ -27,6 +27,18 @@
   transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+.product-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3efe6;
+  color: var(--secondary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
 .product-card:hover .product-image {
   transform: scale(1.1);
 }
@@ -94,6 +106,11 @@
 .btn-icon:hover {
   background: var(--secondary);
   color: white;
+}
+
+.btn-icon:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .product-info {
@@ -173,7 +190,56 @@
   border-radius: 4px;
 }
 
+.stock-line {
+  font-size: 0.82rem;
+  color: #2e7d32;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.stock-line.sold-out {
+  color: #c0392b;
+}
+
+.quantity-picker {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.quantity-picker button {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quantity-picker button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.quantity-picker span {
+  text-align: center;
+  font-weight: 700;
+  min-width: 2ch;
+}
+
 .btn-full {
   width: 100%;
   margin-top: auto;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }

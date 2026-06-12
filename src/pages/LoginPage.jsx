@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAdmin } from '../contexts/AdminContext';
-import { Lock, Mail } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -15,12 +15,12 @@ const LoginPage = () => {
     return <Navigate to="/admin" />;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    const { success, error } = login(password);
+    const { success, error } = await login(password);
     
     if (!success) {
       setError(error);

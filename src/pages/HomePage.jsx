@@ -1,24 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Star, ShieldCheck, Truck } from 'lucide-react';
-import { supabase } from '../lib/supabase';
+import { ArrowRight, ClipboardCheck, MessageCircle, ShieldCheck } from 'lucide-react';
+import { getCategories, getProducts } from '../lib/api';
 import ProductCard from '../components/ProductCard';
 import './HomePage.css';
 
+const fallbackCategories = [
+  { name: 'Rings', image_url: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80' },
+  { name: 'Necklaces', image_url: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80' },
+  { name: 'Earrings', image_url: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&q=80' },
+  { name: 'Bracelets', image_url: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80' }
+];
+
 const HomePage = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    const fetchFeatured = async () => {
-      const { data, error } = await supabase
-        .from('products')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(3);
-      if (data) setFeaturedProducts(data);
+    const fetchHomeData = async () => {
+      try {
+        const [{ products }, categoryResult] = await Promise.all([
+          getProducts({ featured: true }),
+          getCategories().catch(() => ({ categories: [] }))
+        ]);
+        setFeaturedProducts(products);
+        setCategories(categoryResult.categories || []);
+      } catch {
+        setFeaturedProducts([]);
+      }
     };
-    fetchFeatured();
+    fetchHomeData();
   }, []);
+
+  const visibleCategories = (categories.length ? categories : fallbackCategories).slice(0, 6);
 
   return (
     <div className="home-page">
@@ -26,9 +40,9 @@ const HomePage = () => {
       <section className="hero">
         <div className="container hero-content">
           <div className="hero-text animate-fade-in">
-            <span className="hero-subtitle">New Collection 2026</span>
-            <h1>Timeless Elegance For Every Occasion</h1>
-            <p>Discover our curated collection of fine jewellery, from diamond rings to pearl necklaces, crafted with passion and precision.</p>
+            <span className="hero-subtitle">Tarnox Jewellery</span>
+            <h1>Fine Jewellery, Checked For Stock Before You Order</h1>
+            <p>Choose the quantity you need, place a tracked order, and continue the conversation on WhatsApp with an order number already created.</p>
             <div className="hero-btns">
               <Link to="/shop" className="btn btn-primary">
                 Shop Collection <ArrowRight size={18} />
@@ -52,12 +66,7 @@ const HomePage = () => {
             <p>Thoughtfully curated collections for every style</p>
           </div>
           <div className="category-grid">
-            {[
-              { name: 'Rings', image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80' },
-              { name: 'Necklaces', image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80' },
-              { name: 'Earrings', image: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&q=80' },
-              { name: 'Bracelets', image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80' }
-            ].map((cat, idx) => (
+            {visibleCategories.map((cat, idx) => (
               <Link 
                 to={`/shop?category=${cat.name}`} 
                 key={cat.name} 
@@ -65,7 +74,7 @@ const HomePage = () => {
                 style={{ animationDelay: `${0.1 * idx}s` }}
               >
                 <div className="category-image">
-                  <img src={cat.image} alt={cat.name} />
+                  <img src={cat.image_url || fallbackCategories[idx % fallbackCategories.length].image_url} alt={cat.name} />
                   <div className="category-overlay">
                     <h3>{cat.name}</h3>
                   </div>
@@ -81,19 +90,19 @@ const HomePage = () => {
         <div className="container">
           <div className="features-grid">
             <div className="feature-item">
-              <Truck size={32} />
-              <h3>Free Shipping</h3>
-              <p>On all orders over $500</p>
+              <ClipboardCheck size={32} />
+              <h3>Tracked Orders</h3>
+              <p>Every checkout creates an order before follow-up</p>
             </div>
             <div className="feature-item">
               <ShieldCheck size={32} />
-              <h3>Secure Payment</h3>
-              <p>100% secure checkout</p>
+              <h3>Live Inventory</h3>
+              <p>Stock is reduced only when the order is placed</p>
             </div>
             <div className="feature-item">
-              <Star size={32} />
-              <h3>Premium Quality</h3>
-              <p>Certified gemstones & gold</p>
+              <MessageCircle size={32} />
+              <h3>WhatsApp Support</h3>
+              <p>Quick help after checkout, not a lost cart redirect</p>
             </div>
           </div>
         </div>

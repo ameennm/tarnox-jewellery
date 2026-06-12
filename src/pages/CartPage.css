@@ -51,6 +51,20 @@
   border-radius: 8px;
 }
 
+.cart-image-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: #f3efe6;
+  color: var(--secondary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
 .item-details h3 {
   font-size: 1.1rem;
   margin-bottom: 0.3rem;
@@ -65,6 +79,12 @@
 .item-price {
   font-weight: 600;
   color: var(--secondary);
+}
+
+.item-stock {
+  font-size: 0.78rem;
+  color: #2e7d32;
+  margin-top: 0.2rem;
 }
 
 .item-quantity {
@@ -135,6 +155,64 @@
   color: var(--text-light);
 }
 
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.checkout-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.checkout-form label > span {
+  width: fit-content;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  background: #f3efe6;
+  color: #9a7a38;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.checkout-form input,
+.checkout-form textarea {
+  width: 100%;
+  border: 1px solid #e8e2d8;
+  border-radius: 8px;
+  padding: 0.8rem;
+  font: inherit;
+  color: var(--text);
+  background: white;
+}
+
+.checkout-form input:focus,
+.checkout-form textarea:focus {
+  border-color: var(--secondary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.12);
+}
+
+.checkout-error {
+  background: #fff5f5;
+  color: #c0392b;
+  border: 1px solid #f5c6c6;
+  border-radius: 8px;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.checkout-note {
+  color: var(--text-light);
+  text-align: center;
+  font-size: 0.82rem;
+}
+
 @media (max-width: 992px) {
   .cart-grid {
     grid-template-columns: 1fr;
@@ -147,5 +225,45 @@
   }
   .item-details {
     grid-column: 2 / span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .cart-page {
+    padding-top: 100px;
+    padding-bottom: 70px;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cart-item {
+    grid-template-columns: 72px 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .item-details {
+    grid-column: auto;
+  }
+
+  .item-quantity,
+  .item-subtotal,
+  .remove-btn {
+    grid-row: auto;
+  }
+
+  .item-quantity {
+    grid-column: 1 / span 2;
+  }
+
+  .item-subtotal {
+    grid-column: 1 / span 1;
+  }
+
+  .remove-btn {
+    justify-self: end;
   }
 }

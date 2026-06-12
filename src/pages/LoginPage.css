@@ -1,9 +1,11 @@
 .login-page {
-  min-height: 80vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 100px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+  background: #fbfaf7;
 }
 
 .login-card {

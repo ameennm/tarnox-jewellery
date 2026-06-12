@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
 import ProductCard from '../components/ProductCard';
 import { Search } from 'lucide-react';
+import { getProducts } from '../lib/api';
 import './ShopPage.css'; // Reusing shop styles
 
 const WholesalePage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -15,9 +16,16 @@ const WholesalePage = () => {
 
   const fetchProducts = async () => {
     setLoading(true);
-    const { data, error } = await supabase.from('products').select('*').order('created_at', { ascending: false });
-    if (data) setProducts(data);
-    setLoading(false);
+    setError('');
+    try {
+      const { products } = await getProducts();
+      setProducts(products);
+    } catch (err) {
+      setProducts([]);
+      setError(err.message || 'Unable to load wholesale catalog');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const filteredProducts = products.filter(p => 
@@ -45,6 +53,8 @@ const WholesalePage = () => {
 
       {loading ? (
         <div className="loading">Loading wholesale collection...</div>
+      ) : error ? (
+        <div className="no-results">{error}</div>
       ) : (
         <div className="products-grid">
           {filteredProducts.map(product => (

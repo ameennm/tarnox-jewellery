@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getAdminSession, loginAdmin, logoutAdmin } from '../lib/api';
 
 const AdminContext = createContext();
 
@@ -7,25 +8,40 @@ export const AdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const authStatus = localStorage.getItem('tarnox_admin_auth');
-    if (authStatus === 'true') {
-      setIsAdmin(true);
-    }
-    setLoading(false);
+    let isMounted = true;
+
+    getAdminSession()
+      .then(({ isAdmin: hasSession }) => {
+        if (isMounted) setIsAdmin(Boolean(hasSession));
+      })
+      .catch(() => {
+        if (isMounted) setIsAdmin(false);
+      })
+      .finally(() => {
+        if (isMounted) setLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  const login = (password) => {
-    if (password === 'admin') {
+  const login = async (password) => {
+    try {
+      await loginAdmin(password);
       setIsAdmin(true);
-      localStorage.setItem('tarnox_admin_auth', 'true');
       return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
     }
-    return { success: false, error: 'Invalid password' };
   };
 
-  const logout = () => {
-    setIsAdmin(false);
-    localStorage.removeItem('tarnox_admin_auth');
+  const logout = async () => {
+    try {
+      await logoutAdmin();
+    } finally {
+      setIsAdmin(false);
+    }
   };
 
   return (

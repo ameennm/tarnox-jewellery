@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import React, { useEffect, useMemo, useState } from 'react';
 import ProductCard from '../components/ProductCard';
-import { Search, Filter } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
+import { getCategories, getProducts } from '../lib/api';
 import './ShopPage.css';
 
 const ShopPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
+  const [categoryRecords, setCategoryRecords] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const initialCategory = searchParams.get('category') || 'All';
   const [category, setCategory] = useState(initialCategory);
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,24 +22,46 @@ const ShopPage = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [category]);
+  }, []);
 
   const fetchProducts = async () => {
     setLoading(true);
-    let query = supabase.from('products').select('*');
-    
-    if (category !== 'All') {
-      query = query.eq('category', category);
-    }
+    setError('');
 
-    const { data, error } = await query.order('created_at', { ascending: false });
-    if (data) setProducts(data);
-    setLoading(false);
+    try {
+      const [{ products }, categoryResult] = await Promise.all([
+        getProducts(),
+        getCategories().catch(() => ({ categories: [] }))
+      ]);
+      setProducts(products);
+      setCategoryRecords(categoryResult.categories || []);
+    } catch (err) {
+      setProducts([]);
+      setError(err.message || 'Unable to load products');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const categories = ['All', 'Rings', 'Necklaces', 'Earrings', 'Bracelets'];
+  const categories = useMemo(() => {
+    const apiCategories = categoryRecords
+      .map((categoryItem) => categoryItem.name?.trim())
+      .filter(Boolean);
 
-  const filteredProducts = products.filter(p => 
+    const productCategories = products
+      .map((product) => product.category?.trim())
+      .filter(Boolean);
+
+    const apiSet = new Set(apiCategories);
+    const missingProductCategories = Array.from(new Set(productCategories))
+      .filter((name) => !apiSet.has(name))
+      .sort();
+
+    return ['All', ...apiCategories, ...missingProductCategories];
+  }, [categoryRecords, products]);
+
+  const filteredProducts = products.filter(p =>
+    (category === 'All' || p.category?.trim() === category) &&
     p.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -54,7 +78,7 @@ const ShopPage = () => {
             <button 
               key={cat} 
               className={`cat-btn ${category === cat ? 'active' : ''}`}
-              onClick={() => setSearchParams({ category: cat })}
+              onClick={() => cat === 'All' ? setSearchParams({}) : setSearchParams({ category: cat })}
             >
               {cat}
             </button>
@@ -74,6 +98,8 @@ const ShopPage = () => {
 
       {loading ? (
         <div className="loading">Loading our collection...</div>
+      ) : error ? (
+        <div className="no-results">{error}</div>
       ) : (
         <div className="products-grid">
           {filteredProducts.map(product => (
